@@ -1,0 +1,24 @@
+hadoop
+
+Hadoop module for Sanoma
+
+License
+-------
+GPL V2
+
+
+Contact
+-------
+Bas Grolleman <bgrolleman@emendo-it.nl>
+
+
+Support
+-------
+
+Please log tickets and issues at our [Projects site](http://projects.example.com)
+
+Usage
+-----
+
+class { 'hadoop':; }
+
