@@ -6,9 +6,8 @@
 #
 # Document parameters here.
 #
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
+# [*source*]
+#   Provide link to hadoop source, best is to use a local mirror
 #
 # === Variables
 #
@@ -24,17 +23,35 @@
 # === Examples
 #
 #  class { hadoop:
-#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
+#    source  => 'http://apache.mirror.1000mbps.com/hadoop/core/current/hadoop-2.4.0.tar.gz'
 #  }
 #
 # === Authors
 #
-# Author Name <author@domain.com>
+# Bas Grolleman <bgrolleman@emendo-it.nl>
 #
 # === Copyright
 #
-# Copyright 2014 Your name here, unless otherwise noted.
+# Copyright 2014 Bas Grolleman, unless otherwise noted.
 #
-class hadoop () {
+class hadoop (
+  $source      = undef,
+  $private_key = undef,
+  $public_key  = undef,
+  $installdir  = '/opt/hadoop',
+  $user        = 'hadoop',
+  $group       = 'hadoop'
+) {
+  # Check variables
+  if ( $source == undef ) {
+    fail('Please provide a source value in hadoop module')
+  }
+
+  # Make sure we order things right
+  Class['hadoop::install'] -> Class['hadoop::config'] ~> Class['hadoop::service']
+
+  include hadoop::install
+  include hadoop::config
+  include hadoop::service
 
 }
